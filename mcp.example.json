@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "tmt-fleet-maintenance": {
+      "command": "node",
+      "args": ["./packages/tmt-mcp/dist/index.js"],
+      "env": {
+        "TMT_MOCK": "true",
+        "TMT_BASE_URL": "https://your-tmt-server/AMSApp/Integration",
+        "TMT_USERNAME": "",
+        "TMT_PASSWORD": ""
+      }
+    }
+  }
+}

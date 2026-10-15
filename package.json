@@ -1,0 +1,24 @@
+{
+  "name": "tmt-fueling",
+  "private": true,
+  "version": "1.0.0",
+  "description": "PWA for recording fueling transactions and pushing TMT Fleet Maintenance fuel tickets via MCP",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c amber,cyan \"npm run dev -w @tmt-fueling/api\" \"npm run dev -w @tmt-fueling/web\"",
+    "build": "npm run build -w @tmt-fueling/tmt-client && npm run build -w @tmt-fueling/api && npm run build -w @tmt-fueling/web && npm run build -w @tmt-fueling/tmt-mcp",
+    "start": "npm run start -w @tmt-fueling/api",
+    "mcp": "npm run start -w @tmt-fueling/tmt-mcp",
+    "typecheck": "npm run typecheck -w @tmt-fueling/tmt-client && npm run typecheck -w @tmt-fueling/api && npm run typecheck -w @tmt-fueling/web && npm run typecheck -w @tmt-fueling/tmt-mcp"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
