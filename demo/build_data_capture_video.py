@@ -101,21 +101,26 @@ def callout_slide(title: str, bullets: list[str], name: str) -> Path:
     return save(img, name)
 
 
-def frame_capture(capture: Path, eyebrow: str, title: str, name: str) -> Path:
+def frame_capture(
+    capture: Path,
+    eyebrow: str,
+    title: str,
+    name: str,
+    focus: str = "top",
+) -> Path:
+    """focus: top | middle | bottom — vertical bias when cropping tall screenshots."""
     img = bg()
     d = ImageDraw.Draw(img)
     d.text((64, 28), "TRIMBLE", font=font(18, True), fill=YELLOW)
     d.text((64, 58), eyebrow, font=font(18), fill=STEEL)
-    d.text((64, 86), title, font=font(34, True), fill=WHITE)
+    d.text((64, 86), title, font=font(32, True), fill=WHITE)
 
     shot = Image.open(capture).convert("RGB")
-    frame = (48, 145, W - 48, H - 36)
+    frame = (48, 140, W - 48, H - 28)
     fw, fh = frame[2] - frame[0], frame[3] - frame[1]
     d.rounded_rectangle([frame[0], frame[1], frame[2], frame[3]], radius=14, fill=(12, 18, 24))
 
-    # Prefer cropping the form area for readability on 16:9
     sw, sh = shot.size
-    # center crop to ~ app column
     target_aspect = fw / fh
     src_aspect = sw / sh
     if src_aspect > target_aspect:
@@ -124,7 +129,12 @@ def frame_capture(capture: Path, eyebrow: str, title: str, name: str) -> Path:
         shot = shot.crop((left, 0, left + new_w, sh))
     else:
         new_h = int(sw / target_aspect)
-        top = max(0, (sh - new_h) // 6)  # bias upward to keep form
+        if focus == "bottom":
+            top = max(0, sh - new_h)
+        elif focus == "middle":
+            top = max(0, (sh - new_h) // 2)
+        else:
+            top = max(0, min((sh - new_h) // 8, sh - new_h))
         shot = shot.crop((0, top, sw, min(sh, top + new_h)))
 
     shot = shot.resize((fw - 24, fh - 24), Image.Resampling.LANCZOS)
@@ -183,14 +193,14 @@ def build() -> None:
         (43.0, 55.7, frame_capture(CAPTURES / "04-asset-selected.png", "Step 4", "Select TRK-1042 · Freightliner Cascadia", "cap-04.png")),
         (55.7, 76.8, frame_capture(CAPTURES / "05-meters-context.png", "Step 5", "Odometer 214900 · driver · North Yard Island 2", "cap-05.png")),
         (76.8, 91.9, mapping),
-        (91.9, 118.5, frame_capture(CAPTURES / "06-primary-diesel.png", "Step 6", "Primary product: Diesel 48.2 gal @ $3.41", "cap-06.png")),
-        (118.5, 132.3, frame_capture(CAPTURES / "07-def-line.png", "Step 7", "Other product: DEF 2.5 gallons", "cap-07.png")),
-        (132.3, 139.4, frame_capture(CAPTURES / "08-oil-and-products.png", "Step 8", "Other product: Engine oil 4 quarts", "cap-08.png")),
+        (91.9, 118.5, frame_capture(CAPTURES / "06-primary-diesel.png", "Step 6", "Primary product: Diesel 48.2 gal @ $3.41", "cap-06.png", "middle")),
+        (118.5, 132.3, frame_capture(CAPTURES / "07-def-line.png", "Step 7", "Other product: DEF 2.5 gallons", "cap-07.png", "middle")),
+        (132.3, 139.4, frame_capture(CAPTURES / "08-oil-and-products.png", "Step 8", "Other product: Engine oil 4 quarts", "cap-08.png", "middle")),
         (139.4, 152.3, codes),
-        (152.3, 165.9, frame_capture(CAPTURES / "09-notes-ready.png", "Step 9", "Notes: Pump 3 · pre-trip top-off", "cap-09.png")),
-        (165.9, 178.4, frame_capture(CAPTURES / "10-submit-ready.png", "Step 10", "Submit — Push fuel ticket to TMT", "cap-10.png")),
-        (178.4, 189.2, frame_capture(CAPTURES / "11-queue-synced.png", "Step 11", "Queue shows synced ticket and TMT ID", "cap-11.png")),
-        (189.2, 205.4, frame_capture(CAPTURES / "12-queue-detail.png", "Step 12", "Review captured lines: diesel, DEF, oil", "cap-12.png")),
+        (152.3, 165.9, frame_capture(CAPTURES / "09-notes-ready.png", "Step 9", "Notes: Pump 3 · pre-trip top-off", "cap-09.png", "bottom")),
+        (165.9, 178.4, frame_capture(CAPTURES / "10-submit-ready.png", "Step 10", "Submit — Push fuel ticket to TMT", "cap-10.png", "bottom")),
+        (178.4, 189.2, frame_capture(CAPTURES / "11-queue-synced.png", "Step 11", "Queue shows synced ticket and TMT ID", "cap-11.png", "bottom")),
+        (189.2, 205.4, frame_capture(CAPTURES / "12-queue-detail.png", "Step 12", "Review captured lines: diesel, DEF, oil", "cap-12.png", "bottom")),
         (205.4, duration, close),
     ]
 
