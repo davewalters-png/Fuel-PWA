@@ -28,6 +28,27 @@ The PWA never talks to TMT directly. Both the HTTP API and the MCP tools call `@
 
 Product codes map to TMT `FuelCode` values (`DSL`, `GAS`, `LPG`, `AFRZ`, `OIL`, `DEF`). Adjust `packages/tmt-client/src/products.ts` to match your TMT catalog.
 
+## Demo walkthrough (video + MP3)
+
+Professionally narrated Trimble Modus–themed videos:
+
+| File | Description |
+|------|-------------|
+| [`downloads/YardFuel-Data-Capture.mp4`](downloads/YardFuel-Data-Capture.mp4) | **~3:40 detailed data-capture walkthrough** (live UI fields) |
+| [`downloads/YardFuel-Data-Capture.mp3`](downloads/YardFuel-Data-Capture.mp3) | Detailed narration audio |
+| [`downloads/YardFuel-TMT-Walkthrough.mp4`](downloads/YardFuel-TMT-Walkthrough.mp4) | ~2 min overview video |
+| [`downloads/YardFuel-TMT-Walkthrough.mp3`](downloads/YardFuel-TMT-Walkthrough.mp3) | Overview narration audio |
+
+Rebuild locally:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+edge-tts --voice en-US-ChristopherNeural --rate="-5%" \
+  --file demo/narration.txt \
+  --write-media demo/out/YardFuel-TMT-Walkthrough.mp3
+python3 demo/build_video.py
+```
+
 ## Quick start
 
 ```bash

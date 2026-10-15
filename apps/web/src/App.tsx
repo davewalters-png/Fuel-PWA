@@ -149,7 +149,7 @@ export function App() {
     const item: QueuedTransaction = {
       id: clientTransactionId,
       createdAt: new Date().toISOString(),
-      status: online ? "syncing" : "pending",
+      status: "pending",
       payload,
     };
 

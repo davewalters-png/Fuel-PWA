@@ -1,0 +1,21 @@
+This is a detailed walkthrough of data capture in YardFuel — the fields, products, and values that become a TMT Fleet Maintenance fuel ticket.
+
+Open YardFuel on any browser or installed PWA. Confirm the status indicator shows online. In mock mode you can still capture a complete ticket; with live credentials, the same submission posts to TMT through the Integration Toolkit.
+
+Start a new ticket. The first required field is Asset, or Unit. Type a unit I D, license plate, or description. YardFuel queries TMT units and returns matching assets. Select the correct unit — for this example, truck one zero four two, a Freightliner Cascadia.
+
+When you select the unit, YardFuel can pre-fill meter fields from TMT. Review and update the odometer. Enter two one four nine zero zero miles if that matches the pump visit. If the asset uses hours instead of miles, enter the hour meter. Both fields are optional individually, but accurate meters keep TMT cost and utilization reporting correct.
+
+Next, optional context fields. Employee or driver identifies who performed the fueling. Location records the yard, island, or vendor site — for example, North Yard Island Two. These values travel with the ticket comments and help reconcile bulk fuel and vendor purchases.
+
+Now capture primary products. Primary products are diesel fuel, gasoline, and propane. Open the product list and choose diesel. Enter quantity in gallons — forty-eight point two. Optionally enter unit cost per gallon — three dollars and forty-one cents. Add another primary line if the visit dispensed a second fuel type.
+
+Add other products dispensed to the same asset on the same visit. Choose diesel exhaust fluid and enter two point five gallons. Add engine oil and enter four quarts. Add antifreeze when coolant was topped off. Each line becomes its own Fuel Ticket Detail row with the mapped TMT fuel code — D S L for diesel, D E F for DEF, O I L for oil, A F R Z for antifreeze.
+
+Use Notes for island, pump, or exception comments — for example, pump three, pre-trip top-off. Notes are included on the TMT ticket comments with the client transaction reference.
+
+Submit the ticket. Online, YardFuel immediately pushes through the shared TMT client — the same payload the MCP tool tmt create fuel ticket would send. The response returns a fuel ticket I D. Offline, the transaction is stored in the device queue with status pending, then syncs automatically when connectivity returns.
+
+Open the Sync Queue to review what was captured: unit I D, timestamp, product lines with quantities, sync status, and the TMT ticket I D once accepted. Error rows can be retried with Sync Now without re-entering data.
+
+That completes detailed data capture in YardFuel: asset and meters, visit context, primary and other product lines, notes, submit or queue, and confirmation back from TMT Fleet Maintenance. Thank you.
