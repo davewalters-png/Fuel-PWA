@@ -1,0 +1,19 @@
+Welcome to YardFuel — Trimble’s progressive web application for recording fueling transactions and pushing fuel tickets into TMT Fleet Maintenance.
+
+In this walkthrough, we’ll go end to end: from the fuel island, through product capture, into the MCP integration layer, and finally into a populated TMT fuel ticket.
+
+YardFuel runs in any modern browser — phone, tablet, or desktop — and can be installed as a progressive web app for full-screen, mobile-ready use at the yard.
+
+Primary products include diesel fuel, gasoline, and propane. Other products commonly dispensed to an asset — antifreeze, engine oil, and diesel exhaust fluid — are captured on the same ticket.
+
+Begin by searching for the asset. YardFuel looks up TMT units so you can select the correct truck or equipment, then optionally update odometer or hour-meter readings.
+
+Add line items for each product dispensed. Enter quantity and optional unit cost. One visit, one ticket — primary fuel plus any supporting fluids.
+
+When online, submitting the form pushes the transaction through the shared TMT client — the same layer exposed by the MCP server — and creates a fuel ticket in TMT Fleet Maintenance via the Integration Toolkit.
+
+If the device is offline, YardFuel queues the transaction securely on the device. When connectivity returns, the sync queue pushes pending tickets automatically.
+
+Whether the request comes from the browser or from an MCP tool call, the payload is identical: unit, meter data, product lines mapped to TMT fuel codes, and an external reference for traceability.
+
+That is YardFuel end to end — capture at the island, synchronize through the MCP layer, and populate the fuel ticket in TMT Fleet Maintenance. Thank you.
